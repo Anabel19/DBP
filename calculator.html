@@ -1,0 +1,145 @@
+<html>
+	<head>
+	<title>calculator</title>
+	<script>
+
+	function value_pantalla(ke){
+	     key=ke.keyCode || ke.which;
+	     tecla=String.fromCharCode(key); //obtenemos caracter pressXusuario
+	     numbers="0123456789";
+	     
+	     //averigua si una cad esta dentro de otra(caracter ingresado esta en lo permitido)
+	     if(numbers.indexOf(tecla)==-1){
+	        return false;
+	     }
+	}
+	
+	punto=0;
+	function reconocer_value(valor){
+	        var antes=document.pantalla.valores.value; 
+                if (valor=="." && punto==0) { // punto decimal first time 
+                    document.getElementById("valores").value=antes+valor;
+                    
+                    punto=1; //cambiar el estado de la coma  
+                }
+                else if(valor=="." && punto==1){}
+                else{
+                document.getElementById("valores").value=antes+valor;}
+        }
+
+	function signo(op){
+	    var before=document.pantalla.valores.value;
+	    var x =parseInt(before.value);
+	    if(before==""){
+	      document.pantalla.valores.value="";
+	    }
+	    else{
+	        document.getElementById("valores").value=before+op;
+	    }
+	}
+	
+	function sumar(){
+	   var f=function(a,b){return a+b};
+		ejecutar(f);
+	}
+	function restar(){
+	  ejecutar(function(a,b){return a-b});
+	}
+	
+	function multiplicar(){
+	   ejecutar(function(a,b){return a*b});
+	}
+	function division(){
+	   ejecutar(function(a,b){return a/b});
+	}
+	
+	function ejecutar(operacion){
+	    var todo=document.pantalla.valores.value;	
+	    
+	    if(todo==""){
+	       document.pantalla.valores.value="";
+	    }
+	    else{
+	        document.getElementById("valores").value=todo;
+	        for(i=0; i<todo.length;i++){
+	           if(todo[i]=="+" || todo[i]=="-" || todo[i]=="/" || todo[i]=="*"){
+	              var a=todo.substring(0,i);
+	              var b=todo.substring(i+1,todo.length);
+	           }
+	        }
+	        var resultado=operacion(a,b);
+	        document.pantalla.valores.value=resultado;
+	    }
+	}
+	
+	function calcular(value){
+          var t=document.pantalla.valores.value;
+          document.getElementById("valores").value=t;
+      
+          for(i=0; i<t.length;i++){
+	           if(t[i]=="+" || t[i]=="-" || t[i]=="/" || t[i]=="*"){
+	              s=t[i];
+	           }
+	        }
+	  if(s=="+"){sumar();}
+	  else if(s=="-"){restar();}
+	  else if(s=="*"){multiplicar();}
+	  else if(s=="/"){division();}
+	}
+	
+
+	function eliminar_todo(){
+            document.pantalla.valores.value="";
+        }
+        
+	</script>
+	</head>
+  
+  <body>
+  
+   <form name="pantalla">
+       <h2 style="color:purple;">CALCULADORA</h2>
+       <table>
+       
+            <tr>
+            <td colspan="4"><input type="text" id="valores" onkeypress="return value_pantalla(event)"></td>
+            </tr>
+            
+            <tr>
+            <td></td><td></td><td></td>
+            <td><input type="button" value=C onclick=eliminar_todo();> </button></td>
+            </tr>
+            
+            <tr>
+            <td><input type="button" value=7 onclick=reconocer_value(value);></td>
+            <td><input type="button" value=8 onclick=reconocer_value(value);></td>
+            <td><input type="button" value=9 onclick=reconocer_value(value);></td>
+            <td><input type="button" value=/ onclick=signo(value);> </td>
+            </tr>
+            
+            <tr>
+            <td><input type="button" value=4 onclick=reconocer_value(value);> </td>
+            <td><input type="button" value=5 onclick=reconocer_value(value);> </td>
+            <td><input type="button" value=6 onclick=reconocer_value(value);> </td>
+            <td><input type="button" value=* onclick=signo(value);> </td>
+            </tr>
+            
+            <tr>
+            <td><input type="button" value=1 onclick=reconocer_value(value);> </td>
+            <td><input type="button" value=2 onclick=reconocer_value(value);> </td>
+            <td><input type="button" value="3" onclick=reconocer_value(value);> </td>
+            <td><input type="button" value="+" onclick=signo(value);> </td>
+            </tr>
+            
+            <tr>
+            <td><input type="button" value="0" onclick=reconocer_value(value);> </td>
+            <td><input type="button" value="." onclick=reconocer_value(value);> </td>
+            <td><input type="button" value="=" onclick=calcular(value);> </td>
+            <td><input type="button" value="-" onclick=signo(value);> </td>
+            </tr>
+            
+       </table> 
+     </form>  
+  </body>
+
+</html>
